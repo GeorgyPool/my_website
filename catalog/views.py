@@ -20,7 +20,7 @@ def contacts(requests):
         <div style='text-align : center'>
             <p>Дорогой {name} Ваше сообщение успешно получено</p>
             <p>Свяжемся с вами по номеру {phone_number}</p>
-            <a href='http://127.0.0.1:8000/home/'>На главную</a>
+            <a href='http://127.0.0.1:8000/'>На главную</a>
         </div>
         </body>
         </html>
