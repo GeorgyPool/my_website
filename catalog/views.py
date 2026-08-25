@@ -3,14 +3,14 @@ from django.http import HttpResponse
 
 
 def home(requests):
-    return render(requests, 'catalog/home.html')
+    return render(requests, "catalog/home.html")
 
 
 def contacts(requests):
-    if requests.method == 'POST':
-        name = requests.POST.get('name')
-        message = requests.POST.get('message')
-        phone_number = requests.POST.get('phone')
+    if requests.method == "POST":
+        name = requests.POST.get("name")
+        message = requests.POST.get("message")
+        phone_number = requests.POST.get("phone")
         html_content = f"""
         <html>
         <body>
@@ -28,4 +28,4 @@ def contacts(requests):
 
         return HttpResponse(html_content)
 
-    return render(requests, 'catalog/contacts.html')
+    return render(requests, "catalog/contacts.html")
