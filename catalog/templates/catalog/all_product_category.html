@@ -1,0 +1,23 @@
+{% extends 'catalog/base.html' %}
+
+{% block title %}Все товары{% endblock %}
+
+{% block content %}
+{% include 'catalog/home_button.html' %}
+
+<div class="row row-cols-1 p-4 row-cols-md-2 g-4 d-flex justify-content-center">
+    {% for info in products %}
+    <div class="col">
+        <div class="card bg-dark bg-gradient rounded-2">
+            <img src="..." class="card-img-top" alt="...">
+            <div class="card-body">
+                <h5 class="card-title text-warning">{{ info.name_product }}</h5>
+                <p class="card-text text-white">{{ info.descriptions }}</p>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+
+</div>
+
+{% endblock %}
