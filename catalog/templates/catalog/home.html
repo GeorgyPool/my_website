@@ -4,40 +4,25 @@
 
 {% block content %}
 
-<div class="container mt-5 mb-3 d-flex justify-content-center">
-    <h1 class="text-white">Мой магазин</h1>
-</div>
-
-<div class="container d-flex justify-content-center">
-    <h1 class="text-warning">Популярные Категории</h1>
-</div>
-
-<div class="container d-flex justify-content-center">
-
-    {% for cat in category %}
-    <div class="card m-2 rounded-pill">
-        <div class="card-body bg-dark bg-gradient rounded-pill">
-            <a class="text-white" role="button" href="/all_product_category/{{ cat.id }}/">{{ cat.name_category }}</a>
-        </div>
-    </div>
-    {% endfor %}
-
-</div>
-
-<div class="container mt-5 d-flex justify-content-center">
-    <div class="row row-cols-1 row-cols-md-3 g-4">
-        {% for info in products %}
-        <div class="col">
-            <div class="card bg-black bg-gradient">
-                <img src="..." class="card-img-top" alt="...">
-                <div class="card-body bg-dark bg-gradient rounded-2">
-                    <h5 class="card-title text-warning">{{  info.name_product }}</h5>
-                    <p class="card-text text-white">{{ info.descriptions|default:'Нету описания'|truncatechars:100}}</p>
-                    <a class="p-2 btn btn-outline-warning" role="button" href="#">Подробнее</a>
+<div class="album py-5 bg-body-tertiary">
+    <div class="container">
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+            {% for info in products %}
+            <div class="col">
+                <div class="card shadow-sm">
+                    <img src="{{ info.image.url }}">
+                    <div class="card-body"><p class="card-text">{{ info.name_product }}</p>
+                        <p class="card-text">{{ info.descriptions }}</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="btn-group">
+                                <a class="p-2 btn btn-light" href="/product_detail/{{ info.id }}" role="button">Подробнее</a>
+                            </div>
+                            <small class="text-body-secondary"></small></div>
+                    </div>
                 </div>
             </div>
+            {% endfor %}
         </div>
-        {% endfor %}
     </div>
 </div>
 
