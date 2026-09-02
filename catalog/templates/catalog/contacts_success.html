@@ -1,0 +1,20 @@
+{% extends 'catalog/base.html' %}
+
+{% block title %}Успешно отправлено{% endblock %}
+
+{% block content %}
+
+<div class="col-12 mt-5">
+    <div class="container d-flex justify-content-center">
+        <div class="card text-center rounded-3">
+            <div class="card-body bg-dark bg-gradient rounded-3">
+                <h1 class="text-warning">Успешно</h1>
+                <p class="text-white">Уважаемый: {{ name }}</p>
+                <p class="text-white">Ваше сообщение получено</p>
+                <p class="text-white">Свяжемся с вами по номеру {{phone_number}}</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,15 @@
+{% extends 'catalog/base.html' %}
+
+{% block title %}Ве категории{% endblock %}
+
+{% block content %}
+
+<div class="container d-flex justify-content-center">
+    <div class="card mt-5 bg-dark">
+        {% for info in all_category %}
+        <a class="p-2 btn btn-outline-warning mt-2" role="button" href="/all_product_category/{{info.id}}">{{ info.name_category }}</a>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}

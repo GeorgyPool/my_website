@@ -1,31 +1,36 @@
-from django.shortcuts import render
-from django.http import HttpResponse
+from django.shortcuts import render, get_object_or_404
+from catalog.models import Category, Product
 
 
 def home(requests):
-    return render(requests, "catalog/home.html")
+    content = Product.objects.all()
+    context = {"products": content}
+    return render(requests, "catalog/home.html", context=context)
+
+
+def all_category(requests):
+    category = Category.objects.all()
+    context = {"all_category": category}
+    return render(requests, "catalog/all_category.html", context=context)
 
 
 def contacts(requests):
     if requests.method == "POST":
         name = requests.POST.get("name")
-        message = requests.POST.get("message")
         phone_number = requests.POST.get("phone")
-        html_content = f"""
-        <html>
-        <body>
-        <div style='background-color : black; text-align : center'>
-            <h1 style='color : white'>Успешно отправлено!</h1>
-        </div>
-        <div style='text-align : center'>
-            <p>Дорогой {name} Ваше сообщение успешно получено</p>
-            <p>Свяжемся с вами по номеру {phone_number}</p>
-            <a href='http://127.0.0.1:8000/'>На главную</a>
-        </div>
-        </body>
-        </html>
-        """
-
-        return HttpResponse(html_content)
+        context = {"name": name, "phone_number": phone_number}
+        return render(requests, "catalog/contacts_success.html", context=context)
 
     return render(requests, "catalog/contacts.html")
+
+
+def category_all_product(requests, id_category):
+    get_products = Product.objects.filter(category_id=id_category)
+    context = {"products": get_products}
+    return render(requests, "catalog/all_product_category.html", context=context)
+
+
+def product_detail(requests, id_product):
+    content = get_object_or_404(Product, id=id_product)
+    context = {"product_detail": content}
+    return render(requests, "catalog/product_detail.html", context=context)
