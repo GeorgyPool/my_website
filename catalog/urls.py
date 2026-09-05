@@ -5,16 +5,19 @@ from catalog.apps import CatalogConfig
 app_name = CatalogConfig.name
 
 urlpatterns = [
-    path("", views.home, name="home"),
-    path("contacts/", views.contacts, name="contacts"),
+    path("catalog/home/", views.HomeListView.as_view(), name="home"),
+    path("catalog/contacts/", views.ContactFormView.as_view(), name="contacts"),
     path(
-        "all_product_category/<int:id_category>/",
-        views.category_all_product,
+        "catalog/all_product_category/<int:pk>/",
+        views.AllCategoryProduct.as_view(),
         name="all_product_category",
     ),
-    path("contacts_success/", views.contacts, name="contacts_success"),
-    path("all_category/", views.all_category, name="all_category"),
     path(
-        "product_detail/<int:id_product>/", views.product_detail, name="product_detail"
+        "catalog/all_category/", views.CategoryListView.as_view(), name="all_category"
+    ),
+    path(
+        "catalog/product_detail/<int:pk>/",
+        views.ProductDetailView.as_view(),
+        name="product_detail",
     ),
 ]
