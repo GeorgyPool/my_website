@@ -1,7 +1,8 @@
-from catalog.models import Category, Product
-from django.views.generic import ListView, DetailView, FormView
-from catalog.forms import FormContact
 from django.urls import reverse_lazy
+from django.views.generic import DetailView, FormView, ListView
+
+from catalog.forms import FormContact
+from catalog.models import Category, Product
 
 
 class HomeListView(ListView):

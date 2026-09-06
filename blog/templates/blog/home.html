@@ -1,0 +1,56 @@
+{% extends 'blog/include/base.html' %}
+
+{% block title %}Блог{% endblock %}
+
+{% block content %}
+
+<div class="container text-white">
+    <h1 class="text-center mt-5">Блог</h1>
+</div>
+
+<div class="row mb-5">
+    <div class="col-3">
+        <div class="container d-flex justify-content-center">
+            <a class="btn btn-outline-primary" href="{% url 'blog:not_active' %}">Все не активные статьи</a>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-3">
+        <h4 class="text-white text-center">Все активные статьи:</h4>
+    </div>
+</div>
+
+{% if paper %}
+
+<div class="row row-cols-1 row-cols-md-3 g-4 mt-3">
+
+    {% for info in paper %}
+    <div class="col">
+        <div class="card bg-black bg-gradient ms-2 me-2">
+            {% if info.preview %}
+            <img src="{{ info.preview.url }}" class="card-img-top" alt="Фото">
+            {% else %}
+            <h5 class="text-white text-center">Изображение не найдено</h5>
+            {% endif %}
+            <div class="card-body bg-dark bg-gradient text-white">
+                <h5 class="card-title">{{ info.title|truncatechars:100 }}</h5>
+                <p class="card-text">{{ info.text }}</p>
+                <a class="btn btn-outline-primary" href="{% url 'blog:paper_detail' info.pk %}">Подробнее</a>
+                <a class="btn btn-outline-danger" href="{% url 'blog:delete' info.pk %}">Удалить</a>
+                <span class="badge bg-primary ms-5">просмотры: {{ info.view_count }}</span>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+
+</div>
+
+{% else %}
+<div class="container">
+    <h5 class="text-white text-center">Здесь пока пусто, может что-то добавите...</h5>
+</div>
+{% endif %}
+
+{% endblock %}
