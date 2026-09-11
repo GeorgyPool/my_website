@@ -1,0 +1,17 @@
+<header>
+    <div class="container d-flex justify-content-center mt-5">
+        <div class="dropdown">
+            <button class="btn btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                    aria-expanded="false">Меню
+            </button>
+            <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="{% url 'blog:home' %}">Главная</a></li>
+                <li><a class="dropdown-item" href="{% url 'blog:create' %}">Добавить статью</a></li>
+                <li>
+                    <hr class="dropdown-divider">
+                </li>
+                <li><a class="dropdown-item" href="#">Контакты</a></li>
+            </ul>
+        </div>
+    </div>
+</header>

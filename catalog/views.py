@@ -1,36 +1,40 @@
-from django.shortcuts import render, get_object_or_404
+from django.urls import reverse_lazy
+from django.views.generic import DetailView, FormView, ListView
+
+from catalog.forms import FormContact
 from catalog.models import Category, Product
 
 
-def home(requests):
-    content = Product.objects.all()
-    context = {"products": content}
-    return render(requests, "catalog/home.html", context=context)
+class HomeListView(ListView):
+    model = Product
+    template_name = "catalog/home.html"
+    context_object_name = "products"
 
 
-def all_category(requests):
-    category = Category.objects.all()
-    context = {"all_category": category}
-    return render(requests, "catalog/all_category.html", context=context)
+class CategoryListView(ListView):
+    model = Category
+    template_name = "catalog/all_category.html"
+    context_object_name = "all_category"
 
 
-def contacts(requests):
-    if requests.method == "POST":
-        name = requests.POST.get("name")
-        phone_number = requests.POST.get("phone")
-        context = {"name": name, "phone_number": phone_number}
-        return render(requests, "catalog/contacts_success.html", context=context)
-
-    return render(requests, "catalog/contacts.html")
+class ContactFormView(FormView):
+    form_class = FormContact
+    template_name = "catalog/contacts.html"
+    success_url = reverse_lazy("catalog:home")
 
 
-def category_all_product(requests, id_category):
-    get_products = Product.objects.filter(category_id=id_category)
-    context = {"products": get_products}
-    return render(requests, "catalog/all_product_category.html", context=context)
+class AllCategoryProduct(ListView):
+    model = Product
+    template_name = "catalog/all_product_category.html"
+    context_object_name = "products"
+
+    def get_queryset(self):
+        content = super().get_queryset()
+        category_id = self.kwargs.get("pk")
+        return content.filter(category_id=category_id)
 
 
-def product_detail(requests, id_product):
-    content = get_object_or_404(Product, id=id_product)
-    context = {"product_detail": content}
-    return render(requests, "catalog/product_detail.html", context=context)
+class ProductDetailView(DetailView):
+    model = Product
+    template_name = "catalog/product_detail.html"
+    context_object_name = "product_detail"

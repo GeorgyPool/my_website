@@ -1,0 +1,24 @@
+{% extends 'blog/include/base.html' %}
+
+{% block title %}Удаление {{ paper.title }}{% endblock %}
+
+{% block content %}
+
+<div class="container mt-5">
+    <div class="card rounded-pill">
+        <div class="card-body bg-dark bg-gradient rounded-pill">
+            <h1 class="card-title text-danger">Вы действительно хотите удалить: {{ paper.title }}</h1>
+        </div>
+    </div>
+    <form method="post">
+        {% csrf_token %}
+        <div class="container mt-5 d-flex justify-content-center">
+            <a href="{% url 'blog:paper_detail' paper.pk %}" class="btn btn-outline-warning">Отмена</a>
+        </div>
+        <div class="container mt-5 d-flex justify-content-center">
+            <button class="btn btn-outline-danger" type="submit">Удалить</button>
+        </div>
+    </form>
+</div>
+
+{% endblock %}
