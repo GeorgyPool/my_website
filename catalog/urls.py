@@ -22,4 +22,15 @@ urlpatterns = [
         views.ProductDetailView.as_view(),
         name="product_detail",
     ),
+    path("catalog/add_product/", views.ProductCreateView.as_view(), name="add_product"),
+    path(
+        "catalog/product_update/<int:pk>/",
+        views.ProductUpdateView.as_view(),
+        name="product_update",
+    ),
+    path(
+        "catalog/product_delete/<int:pk>/",
+        views.ProductDeleteView.as_view(),
+        name="product_delete",
+    ),
 ]

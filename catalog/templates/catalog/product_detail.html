@@ -1,28 +1,52 @@
 {% extends 'catalog/base.html' %}
 
-{% block title %}Подробно{% endblock %}
+{% block title %}Подробно: {{product_detail.name_product}}{% endblock %}
 
 {% block content %}
 
-<div class="album py-5 bg-body-tertiary">
-    <div class="container">
-        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-            <div class="col">
-                <div class="card shadow-sm">
-                    <img src="{{ product_detail.image.url }}">
-                    <div class="card-body"><p class="card-text text-warning">Название: {{ product_detail.name_product }}</p>
-                        <p class="card-text ">Описание: {{ product_detail.descriptions }}</p>
-                        <p class="card-text">Категория: {{ product_detail.category }}</p>
-                        <p class="card-text">Цена: {{ product_detail.purchase_price }}</p>
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div class="btn-group">
-                            </div>
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <div class="row">
+
+                <div class="col-4">
+                    {% if product_detail.image %}
+                    <img class="w-50" src="{{ product_detail.image.url }}">
+                    {% else %}
+                    <div class="card bg-body rounded-3">
+                        <h5 class="card-title text-center">Изображение не найдено</h5>
+                    </div>
+                    {% endif %}
+                </div>
+
+                <div class="col-4 d-flex justify-content-center">
+                    <div class="card rounded-3">
+                        <div class="card-body bg-body rounded-3">
+                            <h5 class="card-title text-center">Описание</h5>
+                            <p class="card-text">{{ product_detail.descriptions|default:'Описание отсутствует' }}</p>
                         </div>
-                        <a class="p-2 btn btn-light" href="{% url 'catalog:home' %}" role="button">назад</a>
                     </div>
                 </div>
+
+                <div class="col-4 d-flex justify-content-center">
+                    <div class="row-1">
+                        <div class="card bg-body rounded-3">
+                            <h5 class="card-title text-center">Цена</h5>
+                            <p class="card-text">{{ product_detail.purchase_price }}</p>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </div>
     </div>
+</div>
 
-    {% endblock %}
+<div class="container mt-5 mb-5 d-flex justify-content-center">
+    <p>
+        <a href="{% url 'catalog:product_update' product_detail.pk %}" class="btn btn-outline-primary">Редактировать</a>
+        <a href="{% url 'catalog:product_delete' product_detail.pk %}" class="btn btn-outline-danger">Удалить</a>
+    </p>
+</div>
+
+{% endblock %}
