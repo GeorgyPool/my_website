@@ -2,7 +2,9 @@
     <div class="container">
         <div class="row">
             <div class="col-sm-8 col-md-7 py-4"><h4>О нас</h4>
-                <p class="text-body-secondary">Магазин</p></div>
+                <p class="text-body-secondary">
+                    <a class="btn" href="{% url 'catalog:contacts' %}">Контакты</a>
+                </p></div>
             <div class="col-sm-4 offset-md-1 py-4"><h4>Навигация</h4>
                 <ul class="list-unstyled">
                     <li><a href="{% url 'catalog:home' %}" class="text-white">Главная</a></li>

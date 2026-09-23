@@ -1,0 +1,22 @@
+{% extends 'catalog/base.html' %}
+
+{% block title %}Создание продукта{% endblock %}
+
+{% block content %}
+
+<div class="container d-flex justify-content-center">
+    <div class="card">
+        <div class="card-body">
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <p class="d-flex justify-content-center">
+                    <button class="btn btn-outline-primary me-2 ms-2" type="submit">Создать</button>
+                    <a class="btn btn-outline-danger me-2 ms-2" href="{% url 'catalog:home' %}">Отмена</a>
+                </p>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
