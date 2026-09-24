@@ -1,0 +1,22 @@
+{% extends 'catalog/base.html' %}
+
+{% block title %}Вход{% endblock %}
+
+{% block content %}
+
+<div class="col-4 d-flex justify-content-center">
+    <a href="{% url 'catalog:home' %}" class="btn btn-primary">На главную</a>
+</div>
+
+<h1 class="text-center text-white">Вход</h1>
+
+<div class="container d-flex justify-content-center">
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">Вход</button>
+        <a href="catalog:home" class="btn btn-danger">Отмена</a>
+    </form>
+</div>
+
+{% endblock %}
