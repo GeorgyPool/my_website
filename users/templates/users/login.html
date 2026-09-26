@@ -4,8 +4,19 @@
 
 {% block content %}
 
-<div class="col-4 d-flex justify-content-center">
-    <a href="{% url 'catalog:home' %}" class="btn btn-primary">На главную</a>
+
+<div class="col-12">
+    <div class="row">
+
+        <div class="col-4 d-flex justify-content-center">
+            <a href="{% url 'catalog:home' %}" class="btn btn-primary">На главную</a>
+        </div>
+
+        <div class="col-6 d-flex justify-content-end">
+            <a href="{% url 'users:register' %}" class="btn btn-primary">Регистрация</a>
+        </div>
+
+    </div>
 </div>
 
 <h1 class="text-center text-white">Вход</h1>

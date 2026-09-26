@@ -14,7 +14,7 @@ import os
 from pathlib import Path
 
 from django.conf.global_settings import (AUTH_USER_MODEL, LOGIN_REDIRECT_URL,
-                                         LOGOUT_REDIRECT_URL)
+                                         LOGIN_URL, LOGOUT_REDIRECT_URL)
 from dotenv import load_dotenv
 
 load_dotenv(override=True)
@@ -141,6 +141,7 @@ AUTH_USER_MODEL = "users.CustomUser"
 
 LOGIN_REDIRECT_URL = "catalog:home"
 LOGOUT_REDIRECT_URL = "users:login"
+LOGIN_URL = "users:login"
 
 EMAIL_HOST = "smtp.yandex.ru"
 EMAIL_PORT = 465
