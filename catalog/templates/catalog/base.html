@@ -101,6 +101,8 @@
                 <p>
                     {% if user.is_authenticated %}
                     Вы зашли с аккаунта: {{ user.email }}
+                    {% else %}
+                    Вы не авторизированны
                     {% endif %}
                 </p>
             </div>

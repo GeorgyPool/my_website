@@ -1,5 +1,7 @@
 from django.db import models
 
+from users.models import CustomUser
+
 
 class Category(models.Model):
     name_category = models.CharField(
@@ -51,6 +53,14 @@ class Product(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     status = models.BooleanField(default=False, null=True, blank=True)
+
+    owner = models.ForeignKey(
+        CustomUser,
+        on_delete=models.SET_NULL,
+        related_name="user",
+        blank=True,
+        null=True,
+    )
 
     def __str__(self):
         return f"Название продукта: {self.name_product}, цена за покупку: {self.purchase_price}"

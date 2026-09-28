@@ -38,7 +38,7 @@ class FormContact(forms.Form):
 class ProductForm(forms.ModelForm):
     class Meta:
         model = Product
-        exclude = ("status",)
+        exclude = ("status", "owner")
 
     def __init__(self, *args, **kwargs):
         super(ProductForm, self).__init__(*args, **kwargs)

@@ -1,5 +1,6 @@
 from django.contrib.auth.mixins import (LoginRequiredMixin,
                                         PermissionRequiredMixin)
+from django.core.exceptions import PermissionDenied
 from django.urls import reverse_lazy
 from django.views.generic import (CreateView, DeleteView, DetailView, FormView,
                                   ListView, UpdateView)
@@ -53,6 +54,10 @@ class ProductCreateView(LoginRequiredMixin, CreateView):
     template_name = "catalog/product_form.html"
     form_class = ProductForm
     success_url = reverse_lazy("catalog:home")
+
+    def form_valid(self, form):
+        form.instance.owner = self.request.user
+        return super().form_valid(form)
 
 
 class ProductUpdateView(LoginRequiredMixin, UpdateView):
