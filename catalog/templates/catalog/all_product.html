@@ -1,0 +1,28 @@
+{% extends 'catalog/base.html' %}
+
+{% block title %}Все продукты{% endblock %}
+
+{% block content %}
+
+<div class="col-12">
+    <div class="row">
+
+        <div class="col-12 d-flex justify-content-center">
+            <ul class="list-group">
+                {% for product in products %}
+                <li class="list-item">
+                    <p>
+                        {{ product.name_product }}
+                        <a href="{% url 'catalog:product_update' product.pk %}" class="btn btn-link">Редактировать</a>
+                        <a href="{% url 'catalog:product_detail' product.pk %}" class="btn btn-link">Подробно</a>
+                        <a href="{% url 'catalog:product_delete' product.pk %}" class="btn btn-link">Удалить</a>
+                    </p>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}

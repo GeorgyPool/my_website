@@ -98,6 +98,11 @@
                     <a href="{% url 'catalog:all_category' %}" class="btn btn-primary my-2">Все категории</a>
                     <a href="{% url 'catalog:add_product' %}" class="btn btn-secondary my-2">Добавить продукт</a>
                 </p>
+                <p>
+                    {% if user.is_authenticated %}
+                    Вы зашли с аккаунта: {{ user.email }}
+                    {% endif %}
+                </p>
             </div>
         </div>
     </section>

@@ -1,15 +1,22 @@
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import (LoginRequiredMixin,
+                                        PermissionRequiredMixin)
 from django.urls import reverse_lazy
 from django.views.generic import (CreateView, DeleteView, DetailView, FormView,
                                   ListView, UpdateView)
 
-from catalog.forms import FormContact, ProductForm
+from catalog.forms import FormContact, ProductForm, ProductFormModer
 from catalog.models import Category, Product
 
 
 class HomeListView(ListView):
     model = Product
     template_name = "catalog/home.html"
+    context_object_name = "products"
+
+
+class ProductListView(ListView):
+    template_name = "catalog/all_product.html"
+    model = Product
     context_object_name = "products"
 
 
@@ -51,14 +58,21 @@ class ProductCreateView(LoginRequiredMixin, CreateView):
 class ProductUpdateView(LoginRequiredMixin, UpdateView):
     template_name = "catalog/product_form.html"
     model = Product
-    form_class = ProductForm
+
+    def get_form_class(self):
+        user = self.request.user
+        if user.has_perm("catalog.can_unpublish_product"):
+            return ProductFormModer
+        else:
+            return ProductForm
 
     def get_success_url(self):
         return reverse_lazy("catalog:product_detail", kwargs={"pk": self.object.pk})
 
 
-class ProductDeleteView(LoginRequiredMixin, DeleteView):
+class ProductDeleteView(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
     model = Product
     template_name = "catalog/product_conform_delete.html"
     context_object_name = "product"
     success_url = reverse_lazy("catalog:home")
+    permission_required = "catalog.delete_product"
