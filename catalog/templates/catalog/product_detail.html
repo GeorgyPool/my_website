@@ -42,11 +42,13 @@
     </div>
 </div>
 
+{% if user.is_authenticated and user == product_detail.owner or perms.catalog.can_unpublish_product %}
 <div class="container mt-5 mb-5 d-flex justify-content-center">
     <p>
         <a href="{% url 'catalog:product_update' product_detail.pk %}" class="btn btn-outline-primary">Редактировать</a>
         <a href="{% url 'catalog:product_delete' product_detail.pk %}" class="btn btn-outline-danger">Удалить</a>
     </p>
 </div>
+{% endif %}
 
 {% endblock %}

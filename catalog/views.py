@@ -1,15 +1,37 @@
-from django.contrib.auth.mixins import LoginRequiredMixin
+from unicodedata import category
+
+from django.contrib.auth.mixins import (LoginRequiredMixin,
+                                        PermissionRequiredMixin)
+from django.core.cache import cache
 from django.urls import reverse_lazy
+from django.utils.decorators import method_decorator
+from django.views.decorators.cache import cache_page
 from django.views.generic import (CreateView, DeleteView, DetailView, FormView,
                                   ListView, UpdateView)
 
-from catalog.forms import FormContact, ProductForm
+from catalog.forms import FormContact, ProductForm, ProductFormModer
 from catalog.models import Category, Product
+from catalog.services import ServiceAllCategoryProduct
 
 
 class HomeListView(ListView):
     model = Product
     template_name = "catalog/home.html"
+    context_object_name = "products"
+
+    def get_queryset(self):
+        queryset = cache.get("cache_list_product")
+
+        if queryset is None:
+            queryset = Product.objects.all()
+            cache.set("cache_list_product", queryset, 60 * 5)
+
+        return queryset
+
+
+class ProductListView(ListView):
+    template_name = "catalog/all_product.html"
+    model = Product
     context_object_name = "products"
 
 
@@ -31,11 +53,15 @@ class AllCategoryProduct(ListView):
     context_object_name = "products"
 
     def get_queryset(self):
-        content = super().get_queryset()
+        queryset = super().get_queryset()
         category_id = self.kwargs.get("pk")
-        return content.filter(category_id=category_id)
+        queryset = ServiceAllCategoryProduct.get_all_product_category(
+            category_id=category_id
+        )
+        return queryset
 
 
+@method_decorator(cache_page(60 * 15), name="dispatch")
 class ProductDetailView(LoginRequiredMixin, DetailView):
     model = Product
     template_name = "catalog/product_detail.html"
@@ -47,18 +73,29 @@ class ProductCreateView(LoginRequiredMixin, CreateView):
     form_class = ProductForm
     success_url = reverse_lazy("catalog:home")
 
+    def form_valid(self, form):
+        form.instance.owner = self.request.user
+        return super().form_valid(form)
+
 
 class ProductUpdateView(LoginRequiredMixin, UpdateView):
     template_name = "catalog/product_form.html"
     model = Product
-    form_class = ProductForm
+
+    def get_form_class(self):
+        user = self.request.user
+        if user.has_perm("catalog.can_unpublish_product"):
+            return ProductFormModer
+        else:
+            return ProductForm
 
     def get_success_url(self):
         return reverse_lazy("catalog:product_detail", kwargs={"pk": self.object.pk})
 
 
-class ProductDeleteView(LoginRequiredMixin, DeleteView):
+class ProductDeleteView(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
     model = Product
     template_name = "catalog/product_conform_delete.html"
     context_object_name = "product"
     success_url = reverse_lazy("catalog:home")
+    permission_required = "catalog.delete_product"

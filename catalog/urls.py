@@ -33,4 +33,5 @@ urlpatterns = [
         views.ProductDeleteView.as_view(),
         name="product_delete",
     ),
+    path("all_product/", views.ProductListView.as_view(), name="all_product"),
 ]
