@@ -1,3 +1,5 @@
+from unicodedata import category
+
 from django.contrib.auth.mixins import (LoginRequiredMixin,
                                         PermissionRequiredMixin)
 from django.core.cache import cache
@@ -9,6 +11,7 @@ from django.views.generic import (CreateView, DeleteView, DetailView, FormView,
 
 from catalog.forms import FormContact, ProductForm, ProductFormModer
 from catalog.models import Category, Product
+from catalog.services import ServiceAllCategoryProduct
 
 
 class HomeListView(ListView):
@@ -50,9 +53,12 @@ class AllCategoryProduct(ListView):
     context_object_name = "products"
 
     def get_queryset(self):
-        content = super().get_queryset()
+        queryset = super().get_queryset()
         category_id = self.kwargs.get("pk")
-        return content.filter(category_id=category_id)
+        queryset = ServiceAllCategoryProduct.get_all_product_category(
+            category_id=category_id
+        )
+        return queryset
 
 
 @method_decorator(cache_page(60 * 15), name="dispatch")
