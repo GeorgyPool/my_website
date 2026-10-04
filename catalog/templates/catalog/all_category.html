@@ -4,12 +4,14 @@
 
 {% block content %}
 
-<div class="container d-flex justify-content-center">
-    <div class="card mt-5 bg-dark">
-        {% for info in all_category %}
-        <a class="p-2 btn btn-outline-warning mt-2" role="button" href="{% url 'catalog:all_product_category' info.pk %}">{{ info.name_category }}</a>
-        {% endfor %}
-    </div>
+<h1 class="text-center">Все категории:</h1>
+
+<div class="text-center">
+    {% for info in all_category %}
+    <p>
+        <a href="{% url 'catalog:all_product_category' info.pk %}" class="btn btn-link">{{ info.name_category }}</a>
+    </p>
+    {% endfor %}
 </div>
 
 {% endblock %}

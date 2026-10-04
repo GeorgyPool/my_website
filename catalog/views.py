@@ -1,14 +1,11 @@
-from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
-from django.core.exceptions import PermissionDenied
+from django.contrib.auth.mixins import (LoginRequiredMixin,
+                                        PermissionRequiredMixin)
+from django.core.cache import cache
 from django.urls import reverse_lazy
-from django.views.generic import (
-    CreateView,
-    DeleteView,
-    DetailView,
-    FormView,
-    ListView,
-    UpdateView,
-)
+from django.utils.decorators import method_decorator
+from django.views.decorators.cache import cache_page
+from django.views.generic import (CreateView, DeleteView, DetailView, FormView,
+                                  ListView, UpdateView)
 
 from catalog.forms import FormContact, ProductForm, ProductFormModer
 from catalog.models import Category, Product
@@ -18,6 +15,15 @@ class HomeListView(ListView):
     model = Product
     template_name = "catalog/home.html"
     context_object_name = "products"
+
+    def get_queryset(self):
+        queryset = cache.get("cache_list_product")
+
+        if queryset is None:
+            queryset = Product.objects.all()
+            cache.set("cache_list_product", queryset, 60 * 5)
+
+        return queryset
 
 
 class ProductListView(ListView):
@@ -49,6 +55,7 @@ class AllCategoryProduct(ListView):
         return content.filter(category_id=category_id)
 
 
+@method_decorator(cache_page(60 * 15), name="dispatch")
 class ProductDetailView(LoginRequiredMixin, DetailView):
     model = Product
     template_name = "catalog/product_detail.html"

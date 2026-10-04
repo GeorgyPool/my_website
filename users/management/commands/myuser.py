@@ -1,5 +1,5 @@
-from django.db import IntegrityError
 from django.core.management import BaseCommand
+from django.db import IntegrityError
 
 from users.models import CustomUser
 
